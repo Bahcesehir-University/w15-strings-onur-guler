@@ -1,0 +1,130 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: countVowels
+      id: countvowels
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: countVowels
+        setup-command: ''
+        command: make test_s2a
+        timeout: 10
+        max-score: 13
+    - name: toUpperCase
+      id: touppercase
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: toUpperCase
+        setup-command: ''
+        command: make test_s2b
+        timeout: 10
+        max-score: 13
+    - name: reverseString
+      id: reversestring
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: reverseString
+        setup-command: ''
+        command: make test_1
+        timeout: 10
+        max-score: 8
+    - name: isPalindrome
+      id: ispalindrome
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: isPalindrome
+        setup-command: ''
+        command: make test_2
+        timeout: 10
+        max-score: 8
+    - name: countWords
+      id: countwords
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: countWords
+        setup-command: ''
+        command: make test_3
+        timeout: 10
+        max-score: 8
+    - name: replaceChar
+      id: replacechar
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: replaceChar
+        setup-command: ''
+        command: make test_4
+        timeout: 10
+        max-score: 8
+    - name: writeLines
+      id: writelines
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: writeLines
+        setup-command: ''
+        command: make test_5
+        timeout: 10
+        max-score: 10
+    - name: readLines
+      id: readlines
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: readLines
+        setup-command: ''
+        command: make test_6
+        timeout: 10
+        max-score: 10
+    - name: countLinesInFile
+      id: countlinesinfile
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: countLinesInFile
+        setup-command: ''
+        command: make test_7
+        timeout: 10
+        max-score: 7
+    - name: wordCountInFile
+      id: wordcountinfile
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: wordCountInFile
+        setup-command: ''
+        command: make test_chA
+        timeout: 10
+        max-score: 7
+    - name: censorWord
+      id: censorword
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: censorWord
+        setup-command: ''
+        command: make test_chB
+        timeout: 10
+        max-score: 8
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        COUNTVOWELS_RESULTS: "${{steps.countvowels.outputs.result}}"
+        TOUPPERCASE_RESULTS: "${{steps.touppercase.outputs.result}}"
+        REVERSESTRING_RESULTS: "${{steps.reversestring.outputs.result}}"
+        ISPALINDROME_RESULTS: "${{steps.ispalindrome.outputs.result}}"
+        COUNTWORDS_RESULTS: "${{steps.countwords.outputs.result}}"
+        REPLACECHAR_RESULTS: "${{steps.replacechar.outputs.result}}"
+        WRITELINES_RESULTS: "${{steps.writelines.outputs.result}}"
+        READLINES_RESULTS: "${{steps.readlines.outputs.result}}"
+        COUNTLINESINFILE_RESULTS: "${{steps.countlinesinfile.outputs.result}}"
+        WORDCOUNTINFILE_RESULTS: "${{steps.wordcountinfile.outputs.result}}"
+        CENSORWORD_RESULTS: "${{steps.censorword.outputs.result}}"
+      with:
+        runners: countvowels,touppercase,reversestring,ispalindrome,countwords,replacechar,writelines,readlines,countlinesinfile,wordcountinfile,censorword
